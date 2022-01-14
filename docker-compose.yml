@@ -1,0 +1,48 @@
+version: '3.8'
+services:
+  #Nginx Service
+#  web:
+#    image: nginx:alpine
+#    working_dir: /usr/src/app
+#    depends_on:
+#      - frontend
+#    volumes:
+#      - ./:/usr/src/app
+#      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+#      - ./docker/nginx/error.log:/var/log/nginx/error.log
+#    command: [ nginx-debug, '-g', 'daemon off;' ]
+#    container_name: web-intro
+#    ports:
+#      - "8280:80"
+#    networks:
+#      intro-network:
+#        ipv4_address: 17.5.0.3
+  #React
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: frontend-intro
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "3001:3000"
+    working_dir: /usr/src/app
+    volumes:
+      - ./:/usr/src/app
+    command: yarn start
+    networks:
+      intro-network:
+        ipv4_address: 17.5.0.2
+
+#Docker Networks
+networks:
+  intro-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 17.5.0.0/16
+#Volumes
+volumes:
+  dbdatamc:
+    driver: local
