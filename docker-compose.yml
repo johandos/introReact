@@ -30,7 +30,6 @@ services:
     working_dir: /usr/src/app
     volumes:
       - ./:/usr/src/app
-    command: yarn start
     networks:
       intro-network:
         ipv4_address: 17.5.0.2
